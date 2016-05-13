@@ -10,9 +10,16 @@ import Data.ByteString.Lazy.Char8( pack )
 -- not working on Saturdays and Sundays and 24 vacation days per year
 
 hoursPerDay = 7
+workingDaysPerWeek = 5
+
+vacationsPerYear = 24
+nationalHolidays = 11 -- in Italy
 
 -- Work days for a vacation day
-vacationMultiplier = 10
+vacationMultiplier = work / vacation
+  where work = 365 * weekly
+        weekly = workingDaysPerWeek / 7
+        vacation = vacationsPerYear + nationalHolidays
 
 -- convert to Unix seconds in order to calculate the days in between
 daysBetween :: DateTime -> DateTime -> Float
