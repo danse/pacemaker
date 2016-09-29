@@ -1,4 +1,4 @@
-import Exmargination( Margin, time, value )
+import Margin( Margin, time, value )
 import Data.List( sort )
 import Data.DateTime( DateTime, diffMinutes )
 import System.Environment( getArgs )
