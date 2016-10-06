@@ -1,11 +1,8 @@
-import Margin( Margin, time, value )
+import Margin( Margin, time, value, onAllMargins )
 import Data.List( sort )
 import Data.DateTime( DateTime, diffMinutes )
 import System.Environment( getArgs )
-import Data.Aeson( eitherDecode )
-import Data.Either( isRight, rights)
 import Data.ByteString.Lazy( ByteString )
-import Data.ByteString.Lazy.Char8( pack )
 
 -- not working on Saturdays and Sundays and 24 vacation days per year
 
@@ -54,21 +51,6 @@ report margins =
     "you relaxed "++ (show skipped) ++ " days. " ++
     comparison
 
-readMarginFiles :: [String] -> IO [String]
-readMarginFiles names = sequence $ map readFile names
-
-analyse parsed = report $ concat parsed
-
-areRights :: [Either a b] -> [Bool]
-areRights = map isRight
-
-allRights :: [Either a b] -> Bool
-allRights = and . areRights
-
 main = do
   args <- getArgs
-  contents <- readMarginFiles args
-  let parsed = map (eitherDecode . pack) contents
-    in if (allRights parsed)
-       then print $ analyse $ rights parsed
-       else print "parsing error"
+  onAllMargins args report
