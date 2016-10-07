@@ -3,6 +3,7 @@ import Data.List( sort )
 import Data.DateTime( DateTime, diffMinutes )
 import System.Environment( getArgs )
 import Data.ByteString.Lazy( ByteString )
+import MyShow( (&) )
 
 -- not working on Saturdays and Sundays and 24 vacation days per year
 
@@ -42,15 +43,17 @@ report margins =
       deserved = worked / vacationMultiplier
       difference = deserved - skipped
       comparison = if (difference > 0)
-                   then "You can take "++ (show difference) ++" vacation days"
-                   else "You took "++ (show $ negate difference) ++" extra vacation days!"
+                   then "You can take" & difference & "vacation days"
+                   else "You took" & negate difference & "extra vacation days!"
   in
-    "Between "++ (show firstDay) ++" and "++ (show lastDay) ++ " " ++
-    "you worked "++ (show worked) ++ " days, " ++
-    "deserving "++ (show deserved) ++" vacation days, " ++
-    "you relaxed "++ (show skipped) ++ " days. " ++
-    comparison
+    "Between" & firstDay & "and" & lastDay &
+    "you worked" & worked & "days," &
+    "deserving" & deserved & "vacation days," &
+    "you relaxed" & skipped & "days." & comparison
+
+
+space t = unlines ["", t, ""]
 
 main = do
   args <- getArgs
-  onAllMargins args report
+  onAllMargins args (space . report)

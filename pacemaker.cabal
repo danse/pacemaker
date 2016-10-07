@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                pacemaker
-version:             0.1.1.1
+version:             0.1.2.0
 -- synopsis:            
 -- description:         
 homepage:            https://github.com/danse/pacemaker
@@ -23,6 +23,7 @@ executable pacemaker
   build-depends:
        base >=4.8 && <4.9,
        margin,
+       time,
        datetime,
        aeson,
        bytestring
